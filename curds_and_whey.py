@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Sep 10 10:15:04 2020
+Created on Fri Sep 11 10:03:31 2020
 
 @author: Om Patel
 """
+
+##############################
+   ##binned for right now##    
+##############################
 
 
 from enum import Enum, auto
@@ -171,7 +175,7 @@ class Solution:
             
         return self.find_solution(cardlist, fd, sol, max_moves_per_foundation_move)
            
-    def find_cards_to_put_in_foundations(self, cardlist, fd):
+    def find_cards_to_put_in_empty_slot(self, cardlist, fd):
        cards = []
        foundations = []
        cl_num = 0
@@ -199,7 +203,7 @@ class Solution:
         card_list_to = []
         cl_from_num = 0
         cl_to_num = 0
-        
+  
         for cl_from in cardlist:
             for cl_to in cardlist:
                 if cl_from != [] and cl_to != []:
@@ -219,8 +223,10 @@ class Solution:
             if cards != []: total += len(cards)
         return total
     
+    def clear
 
 s = Solution()
 sol = s.solve()
 for i in sol:
     print(i)
+
