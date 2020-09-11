@@ -9,6 +9,10 @@ Created on Fri Sep 11 10:29:08 2020
 from enum import Enum, auto
 import random
 
+#mode 0 is fast mode(just stops on first solution)
+#mode 1 is thorough mode(runs through all iterations and picks the one with least steps)
+mode = 0
+
 class CardSuite(Enum):
     HEART   = auto()
     SPADE   = auto()
@@ -34,123 +38,73 @@ class Solution:
         self.turns_since_foundation_changed = 0
         
     def get_card_lists(self):
-        cl1 = list()
-        cl1.append(Card( 9, CardSuite.CLUB))
-        cl1.append(Card( 9, CardSuite.DIAMOND))
-        cl1.append(Card(10, CardSuite.HEART))
         
-        cl2 = list()
-        cl2.append(Card( 1, CardSuite.CLUB))
-        cl2.append(Card( 4, CardSuite.CLUB))
-        cl2.append(Card( 3, CardSuite.DIAMOND))
+        h = 0;#dont touch
+        s = 1;#dont touch
+        c = 2;#dont touch
+        d = 3;#dont touch
         
-        cl3 = list()
-        cl3.append(Card(11, CardSuite.HEART))
-        cl3.append(Card( 6, CardSuite.CLUB))
-        cl3.append(Card( 9, CardSuite.SPADE))
+        card_nums = [4,1,12,11,6,13,10,7,10,13,6,1,10,11,11,4,3,3,9,4,8,5,3,12,2,5,4,1,5,1,7,11,12,7,2,9,3,13,8,12,6,9,6,2,8,9,7,13,2,8,10,5]
+        card_suites = [d,c,c,s,h,c,c,s,h,d,d,s,s,d,h,h,s,c,c,c,s,h,h,h,h,d,s,h,c,d,h,c,s,d,s,h,d,s,d,d,c,s,s,c,h,d,c,h,d,c,d,s]
+        cards_per_pile = 3
+        piles = 18
         
-        cl4 = list()
-        cl4.append(Card(13, CardSuite.CLUB))
-        cl4.append(Card(12, CardSuite.CLUB))
-        cl4.append(Card(12, CardSuite.DIAMOND))
+        cl = []# you dont need to put anythin in here
         
-        cl5 = list()
-        cl5.append(Card( 4, CardSuite.SPADE))
-        cl5.append(Card(11, CardSuite.SPADE))
-        cl5.append(Card( 8, CardSuite.CLUB))
-        
-        cl6 = list()
-        cl6.append(Card( 8, CardSuite.DIAMOND))
-        cl6.append(Card( 5, CardSuite.SPADE))
-        cl6.append(Card( 4, CardSuite.HEART))
-        
-        cl7 = list()
-        cl7.append(Card(10, CardSuite.CLUB))
-        cl7.append(Card( 2, CardSuite.SPADE))
-        cl7.append(Card( 1, CardSuite.HEART))
-        
-        cl8 = list()
-        cl8.append(Card(11, CardSuite.DIAMOND))
-        cl8.append(Card( 6, CardSuite.DIAMOND))
-        cl8.append(Card( 8, CardSuite.HEART))
-
-        
-        cl9 = list()
-        cl9.append(Card( 7, CardSuite.HEART))
-        cl9.append(Card( 5, CardSuite.CLUB))
-        cl9.append(Card( 7, CardSuite.SPADE))
-        
-        cl10 = list()
-        cl10.append(Card(13, CardSuite.SPADE))
-        cl10.append(Card( 1, CardSuite.DIAMOND))
-        cl10.append(Card( 3, CardSuite.SPADE))
-        
-        cl11 = list()
-        cl11.append(Card( 1, CardSuite.SPADE))
-        cl11.append(Card(11, CardSuite.CLUB))
-        cl11.append(Card( 2, CardSuite.DIAMOND))
-        
-        cl12 = list()
-        cl12.append(Card(13, CardSuite.HEART))
-        cl12.append(Card( 5, CardSuite.DIAMOND))
-        cl12.append(Card( 8, CardSuite.SPADE))
-        
-        cl13 = list()
-        cl13.append(Card(13, CardSuite.DIAMOND))
-        cl13.append(Card( 7, CardSuite.CLUB))
-        cl13.append(Card( 6, CardSuite.HEART))
-        
-        cl14 = list()
-        cl14.append(Card(13, CardSuite.DIAMOND))
-        cl14.append(Card( 7, CardSuite.CLUB))
-        cl14.append(Card( 6, CardSuite.HEART))
-        
-        cl15 = list()
-        cl15.append(Card(13, CardSuite.DIAMOND))
-        cl15.append(Card( 7, CardSuite.CLUB))
-        cl15.append(Card( 6, CardSuite.HEART))
-        
-        cl16 = list()
-        cl16.append(Card(13, CardSuite.DIAMOND))
-        cl16.append(Card( 7, CardSuite.CLUB))
-        cl16.append(Card( 6, CardSuite.HEART))
-        
-        cl17 = list()
-        cl17.append(Card(13, CardSuite.DIAMOND))
-        cl17.append(Card( 7, CardSuite.CLUB))
-        cl17.append(Card( 6, CardSuite.HEART))
-        
-        cl18 = list()
-        cl18.append(Card(13, CardSuite.DIAMOND))
-        
-        return [cl1, cl2, cl3, cl4, cl5,  cl6, cl7, cl8, cl9, cl10, cl11, cl12, cl13]
+        if len(card_nums) == 52 and len(card_suites) == 52:
+            for x in range(piles):
+                cl.append([])
+                for y in range(cards_per_pile):    
+                    if x*cards_per_pile + y < 52:
+                        suite = card_suites[(x*cards_per_pile + y)]
+                        if suite == 0:
+                            cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.HEART))
+                        if suite == 1:
+                            cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.SPADE))
+                        if suite == 2:
+                            cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.CLUB))
+                        if suite == 3:
+                            cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.DIAMOND))
+            return (True, cl)
+        else:
+            print(f"cards not fully defined: {len(card_nums)} numbers and {len(card_suites)} suites")
+            return(False, None)
         
     def get_empty_foundation(self):
         return [[],[],[],[]]
     
     def solve(self):
-        itr = 10000
-        solutions = []
-        best_solution = [None] * 300 
-        while itr > 0:
-            self.turns_since_foundation_changed = 0
-            s = self.find_solution(self.get_card_lists(), self.get_empty_foundation(), list(), 50)
-            print('{} - {}'.format(itr, s[0]))
-            if s[0]: 
-                solutions.append(s[1])
-            itr -= 1
-            
-        for solution in solutions:
-            if(len(solution) < len(best_solution)): best_solution = solution
+        cards_defined = self.get_card_lists()[0]
+        if cards_defined:
+            itr = 10000
+            total_itr = itr
+            solutions = []
+            best_solution = [None] * 300 
+            while itr > 0:
+                self.turns_since_foundation_changed = 0
+                s = self.find_solution(self.get_card_lists()[1], self.get_empty_foundation(), list(), 50)
+                print('{} - {}'.format(itr, s[0]))
+                if s[0]:
+                    if mode == 1: 
+                        solutions.append(s[1])
+                    else: return (f"found solution on iteration {itr}", s[1])
+                itr -= 1
+                
+            for solution in solutions:
+                if(len(solution) < len(best_solution)): best_solution = solution
+                
+            if best_solution[0] != None: return (f"{len(solutions)} solutions found, showing solution {solutions.index(best_solution) + 1} (best solution)", best_solution)
+            else: return (f"could not find solution after {total_itr} iterations", []) 
         
-        return best_solution
+        else: 
+            return ("can not find solution because of improper deck definition", [])
     
     def find_solution(self, cardlist, fd, sol, max_moves_per_foundation_move):
         
         cards_to_put_in_foundations = self.find_cards_to_put_in_foundations(cardlist, fd)
-       # print(cards_to_put_in_foundations)
+        #print(cards_to_put_in_foundations)
         cards_to_move_between_card_lists = self.find_cards_to_move_between_card_lists(cardlist)
-       # print(cards_to_move_between_card_lists)
+        #print(cards_to_move_between_card_lists)
         if self.find_cards_left_in_all_lists(cardlist) == 0: return (True, sol)
         if cards_to_put_in_foundations[0] == False:  
             if cards_to_move_between_card_lists[0] == False: return(False, sol)
@@ -215,7 +169,7 @@ class Solution:
             for cl_to in cardlist:
                 if cl_from != []: 
                     if cl_to != []:
-                        if cl_from[-1].value + 1 == cl_to[-1].value:
+                        if cl_from[-1].value + 1 == cl_to[-1].value and cl_from[-1].suite == cl_to[-1].suite:
                             card_list_from.append(cl_from_num)
                             card_list_to.append(cl_to_num)
                     elif cl_from[-1].value == 13:
@@ -238,5 +192,6 @@ class Solution:
 
 s = Solution()
 sol = s.solve()
-for i in sol:
+print(sol[0])
+for i in sol[1]:
     print(i)
