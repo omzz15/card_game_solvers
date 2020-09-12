@@ -37,6 +37,21 @@ class Solution:
     def __init__(self):
         self.turns_since_foundation_changed = 0
         
+    def get_num_of_suites(self, cards):
+        suites = [0] * 4
+        for card in cards:
+            suites[card] += 1
+        return suites
+    
+    def check_num_of_suites(self, cards):
+        suites = self.get_num_of_suites(cards)
+        if suites[0] == 13 and suites[1] == 13 and suites[2] == 13 and suites[3] == 13:
+            return True
+        return False
+    
+    def check_card_nums(self, cards):
+        return len([False for i in range(1, 14) if cards.count(i) != 4]) == 0
+        
     def get_card_lists(self):
         
         h = 0;#dont touch
@@ -49,9 +64,9 @@ class Solution:
         cards_per_pile = 4
         piles = 13
         
-        cl = []# you dont need to put anythin in here
+        cl = []# you dont need to put anythin in here 
         
-        if len(card_nums) == 52 and len(card_suites) == 52:
+        if len(card_nums) == 52 and len(card_suites) == 52 and self.check_num_of_suites(card_suites) and self.check_card_nums(card_nums):
             for x in range(piles):
                 cl.append([])
                 for y in range(cards_per_pile):    
@@ -67,7 +82,14 @@ class Solution:
                             cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.DIAMOND))
             return (True, cl)
         else:
-            print(f"cards not fully defined: {len(card_nums)} numbers and {len(card_suites)} suites")
+            if len(card_nums) != 52: print(f"numbers not fully defined: only {len(card_nums)} numbers defined")
+            if len(card_suites) != 52: print(f"suites not fully defined: only {len(card_suites)} suites defined")
+            if self.check_num_of_suites(card_suites) == False:
+                suites = self.get_num_of_suites(card_suites)
+                print(f"{suites[0]} hearts, {suites[1]} spades, {suites[2]} clubs, {suites[3]} diamond") 
+            if self.check_card_nums(card_nums) == False:
+                for i in range(1,14):
+                    print(f"the number of {i}s is {card_nums.count(i)}")
             return(False, None)
         
     def get_empty_foundation(self):
