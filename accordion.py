@@ -3,9 +3,6 @@
 
 from card import Card, CardSuite
 import random
-
-class CardGameSolver:
-    pass
     
 class Solution:
     
@@ -28,8 +25,8 @@ class Solution:
         return []
 
     def find_solution_move(self, cl, sol, f, t):
-        cl[f], cl[t] = cl[t], cl[f]
         c = cl[f]
+        cl[f], cl[t] = cl[t], cl[f]
         cl = cl[0:f]+cl[f+1:]
         return self.find_solution_deep(cl, sol+[c])
         
@@ -39,12 +36,8 @@ class Solution:
         #input()
         if len(cl) == 0: return (False, sol)
         if len(cl) == 1: return (True, sol)
-        rnk_sol, suit_sol = self.find_all_moves(cl)
+        rnk_sol = self.find_all_moves(cl)
         for f, t in rnk_sol:
-            found, new_sol = self.find_solution_move(cl, sol, f, t)
-            if found is not None:
-                return (found, new_sol)
-        for f, t in suit_sol:
             found, new_sol = self.find_solution_move(cl, sol, f, t)
             if found is not None:
                 return (found, new_sol)
@@ -59,49 +52,31 @@ class Solution:
         f, t = self.find_random_move(cl)
         if f == -1 or t == -1:
             return (False, sol)
-        cl[f], cl[t] = cl[t], cl[f]
         sol.append(cl[f])
+        cl[f], cl[t] = cl[t], cl[f]
         cl = cl[0:f]+cl[f+1:]
         return self.find_solution_random(cl, sol)
         
     def find_all_moves(self, cl):
         rnk_sol = []
-        suit_sol = []
         for f in range(len(cl)):
-            t = self.find_to(cl, f, True, False)
+            t = self.find_to(cl, f)
             if t >= 0:
                 rnk_sol.append((f, t))
-            t = self.find_to(cl, f, False, True)
-            if t >= 0:
-                suit_sol.append((f, t))
-        return (rnk_sol, suit_sol)
+        return rnk_sol
         
     def find_random_move(self, cl):
-        rnk_sol, suit_sol = self.find_all_moves(cl)
-        select = lambda l: l[random.randint(0, len(l)-1)]
-        if len(rnk_sol) == 0 and len(rnk_sol) == 0:
+        rnk_sol = self.find_all_moves(cl)
+        if len(rnk_sol) == 0:
             return (-1, -1)
-        elif len(rnk_sol) == 0:
-            return select(suit_sol)
-        elif len(suit_sol) == 0:
-            return select(rnk_sol)
         else:
-            if bool(random.getrandbits(1)):
-                return select(suit_sol)
-            else:
-                return select(rnk_sol)
+            return rnk_sol[random.randint(0, len(rnk_sol)-1)]
         
-    def find_to(self, cl, f, com_rank, com_suite):
-        if com_rank:
-            if f>2 and cl[f].rank == cl[f-3].rank:
-                return f-3
-            if f>0 and cl[f].rank == cl[f-1].rank:
-                return f-1
-        if com_suite:
-            if f>2 and cl[f].suite == cl[f-3].suite:
-                return f-3
-            if f>0 and cl[f].suite == cl[f-1].suite:
-                return f-1
+    def find_to(self, cl, f):
+        if f>2 and (cl[f].rank == cl[f-3].rank or cl[f].suite == cl[f-3].suite):
+            return f-3
+        if f>0 and (cl[f].rank == cl[f-1].rank or cl[f].suite == cl[f-1].suite):
+            return f-1
         return -1        
     
 cl = list()

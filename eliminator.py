@@ -54,14 +54,14 @@ class Solution:
         return (False, None)
     """
     
-    def find_card_for_all_foundations(self):
+    def find_card_for_all_foundations(self, card_lists):
         cards = []
         foundations = []
         cl = 0
         f = 0
         
         for foundation in self.foundations:
-            for card_list in self.card_lists:
+            for card_list in card_lists:
                 if card_list != []:
                     if foundation != []:
                         if(card_list[-1].neighbor(foundation[-1])): 
@@ -106,7 +106,7 @@ class Solution:
     
     def find_solution(self, card_lists, sol):
         #recurtion break checks:
-        all_movable_cards = self.find_card_for_all_foundations()
+        all_movable_cards = self.find_card_for_all_foundations(card_lists)
         all_movable_foundation_cards = self.find_card_to_move_between_foundations()
         
         if  all_movable_cards[0] == False and  all_movable_foundation_cards[0] == False: return (False, sol) 
@@ -141,63 +141,63 @@ class Solution:
 #################################        
     
 cl1 = list()
-cl1.append(Card( 4, CardSuite.DIAMOND))
-cl1.append(Card(11, CardSuite.SPADE))
-cl1.append(Card( 9, CardSuite.SPADE))
-cl1.append(Card( 9, CardSuite.SPADE))
 cl1.append(Card(13, CardSuite.DIAMOND))
+cl1.append(Card(11, CardSuite.SPADE))
 cl1.append(Card( 5, CardSuite.SPADE))
+cl1.append(Card( 3, CardSuite.SPADE))
+cl1.append(Card( 6, CardSuite.DIAMOND))
+cl1.append(Card( 9, CardSuite.SPADE))
 cl1.append(Card(10, CardSuite.SPADE))
-cl1.append(Card(12, CardSuite.HEART))
-cl1.append(Card( 1, CardSuite.HEART))
+cl1.append(Card( 8, CardSuite.HEART))
+cl1.append(Card( 9, CardSuite.HEART))
 cl1.append(Card(11, CardSuite.DIAMOND))
-cl1.append(Card( 2, CardSuite.SPADE))
-cl1.append(Card(10, CardSuite.DIAMOND))
 cl1.append(Card( 4, CardSuite.SPADE))
+cl1.append(Card( 8, CardSuite.DIAMOND))
+cl1.append(Card( 5, CardSuite.SPADE))
 
 cl2 = list()
-cl2.append(Card( 6, CardSuite.CLUB))
-cl2.append(Card( 6, CardSuite.SPADE))
-cl2.append(Card(13, CardSuite.SPADE))
-cl2.append(Card( 5, CardSuite.CLUB))
-cl2.append(Card( 2, CardSuite.DIAMOND))
-cl2.append(Card( 3, CardSuite.SPADE))
-cl2.append(Card( 5, CardSuite.CLUB))
-cl2.append(Card( 5, CardSuite.CLUB))
 cl2.append(Card(12, CardSuite.CLUB))
-cl2.append(Card(12, CardSuite.SPADE))
-cl2.append(Card( 4, CardSuite.HEART))
-cl2.append(Card( 1, CardSuite.DIAMOND))
+cl2.append(Card( 8, CardSuite.SPADE))
+cl2.append(Card(10, CardSuite.SPADE))
+cl2.append(Card( 7, CardSuite.CLUB))
+cl2.append(Card( 7, CardSuite.DIAMOND))
+cl2.append(Card( 4, CardSuite.SPADE))
+cl2.append(Card( 2, CardSuite.CLUB))
+cl2.append(Card( 5, CardSuite.CLUB))
+cl2.append(Card( 9, CardSuite.CLUB))
+cl2.append(Card( 3, CardSuite.SPADE))
+cl2.append(Card( 7, CardSuite.HEART))
+cl2.append(Card(10, CardSuite.DIAMOND))
 cl2.append(Card(12, CardSuite.DIAMOND))
 
 cl3 = list()
-cl3.append(Card( 7, CardSuite.SPADE))
-cl3.append(Card(10, CardSuite.HEART))
-cl3.append(Card( 7, CardSuite.SPADE))
-cl3.append(Card( 4, CardSuite.CLUB))
-cl3.append(Card( 3, CardSuite.CLUB))
+cl3.append(Card( 5, CardSuite.SPADE))
+cl3.append(Card( 6, CardSuite.HEART))
+cl3.append(Card( 1, CardSuite.SPADE))
 cl3.append(Card( 6, CardSuite.CLUB))
-cl3.append(Card( 2, CardSuite.CLUB))
-cl3.append(Card( 7, CardSuite.CLUB))
-cl3.append(Card(13, CardSuite.DIAMOND))
+cl3.append(Card( 4, CardSuite.CLUB))
+cl3.append(Card(13, CardSuite.CLUB))
+cl3.append(Card(11, CardSuite.CLUB))
+cl3.append(Card( 6, CardSuite.CLUB))
+cl3.append(Card( 7, CardSuite.DIAMOND))
+cl3.append(Card( 9, CardSuite.HEART))
+cl3.append(Card(12, CardSuite.CLUB))
+cl3.append(Card(12, CardSuite.DIAMOND))
 cl3.append(Card( 1, CardSuite.HEART))
-cl3.append(Card( 1, CardSuite.CLUB))
-cl3.append(Card(10, CardSuite.DIAMOND))
-cl3.append(Card( 8, CardSuite.HEART))
 
 cl4 = list()
-cl4.append(Card( 9, CardSuite.DIAMOND))
-cl4.append(Card( 3, CardSuite.HEART))
-cl4.append(Card( 8, CardSuite.DIAMOND))
-cl4.append(Card( 8, CardSuite.HEART))
-cl4.append(Card(13, CardSuite.HEART))
-cl4.append(Card( 3, CardSuite.HEART))
-cl4.append(Card(11, CardSuite.DIAMOND))
+cl4.append(Card(13, CardSuite.DIAMOND))
+cl4.append(Card( 2, CardSuite.HEART))
+cl4.append(Card( 2, CardSuite.DIAMOND))
+cl4.append(Card(10, CardSuite.HEART))
+cl4.append(Card( 1, CardSuite.HEART))
+cl4.append(Card( 1, CardSuite.HEART))
+cl4.append(Card( 4, CardSuite.DIAMOND))
 cl4.append(Card(11, CardSuite.CLUB))
-cl4.append(Card( 7, CardSuite.HEART))
-cl4.append(Card( 9, CardSuite.CLUB))
-cl4.append(Card( 6, CardSuite.DIAMOND))
-cl4.append(Card( 8, CardSuite.HEART))
+cl4.append(Card( 3, CardSuite.HEART))
+cl4.append(Card( 8, CardSuite.CLUB))
+cl4.append(Card( 3, CardSuite.DIAMOND))
+cl4.append(Card(13, CardSuite.HEART))
 cl4.append(Card( 2, CardSuite.HEART))
 
 s = Solution(cl1, cl2, cl3, cl4)

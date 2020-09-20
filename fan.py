@@ -54,10 +54,7 @@ class Solution:
         
     def get_card_lists(self):
         
-        h = 0;#dont touch
-        s = 1;#dont touch
-        c = 2;#dont touch
-        d = 3;#dont touch
+        s, d, c, h = CardSuite.get_suite_num_vars()
         
         card_nums = [4,1,12,11,6,13,10,7,10,13,6,1,10,11,11,4,3,3,9,4,8,5,3,12,2,5,4,1,5,1,7,11,12,7,2,9,3,13,8,12,6,9,6,2,8,9,7,13,2,8,10,5]
         card_suites = [d,c,c,s,h,c,c,s,h,d,d,s,s,d,h,h,s,c,c,c,s,h,h,h,h,d,s,h,c,d,h,c,s,d,s,h,d,s,d,d,c,s,s,c,h,d,c,h,d,c,d,s]
@@ -72,13 +69,13 @@ class Solution:
                 for y in range(cards_per_pile):    
                     if x*cards_per_pile + y < 52:
                         suite = card_suites[(x*cards_per_pile + y)]
-                        if suite == 0:
+                        if suite == 4:
                             cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.HEART))
                         if suite == 1:
                             cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.SPADE))
-                        if suite == 2:
-                            cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.CLUB))
                         if suite == 3:
+                            cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.CLUB))
+                        if suite == 2:
                             cl[x].append(Card(card_nums[(x*cards_per_pile + y)], CardSuite.DIAMOND))
             return (True, cl)
         else:
