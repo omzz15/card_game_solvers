@@ -5,36 +5,14 @@ Created on Wed Sep  9 20:46:40 2020
 @author: Om Patel
 """
 
-from enum import Enum, auto
+from card import Card, CardSuite
 import random
 
-class CardSuite(Enum):
-    HEART   = auto()
-    SPADE   = auto()
-    CLUB    = auto()
-    DIAMOND = auto()
-    
-class Card:
-    
-    def __init__(self, rank, suite):
-        self.rank = rank
-        self.suite = suite
-        
-    def __repr__(self):
-        return '{} - {}'.format(self.rank, self.suite)
-    def neighbor(self, other):
-        if(other == None): return False
-        if(self.rank + 1 == other.rank or self.rank - 1 == other.rank): return True
-        elif((self.rank == 13 and other.rank == 1) or(self.rank == 1 and other.rank == 13)): return True
-        else: return False
-    @property
-    def value(self):
-        return self.rank
     
 class Solution:
     
-    def __init__(self, cl1, c12, cl3, cl4):
-        self.card_lists = [cl1, cl2, cl3, cl4]
+    def __init__(self, cl_list):
+        self.card_lists = cl_list
         self.foundations = [[], [], [], [], [], []]
     
     def solve(self):
@@ -47,12 +25,11 @@ class Solution:
             itr -= 1
         return []
     
-    """ 
-    def find_card_for_foundation(self, foundation):
-        for card_list in self.card_lists:
-            if(card_list[-1].neighbor(foundation[-1])): return (True, card_list[-1])
-        return (False, None)
-    """
+    def neighbor(c1, other):
+        if(other == None or c1 == None): return False
+        if(c1.rank + 1 == other.rank or c1.rank - 1 == other.rank): return True
+        elif((c1.rank == 13 and other.rank == 1) or(c1.rank == 1 and other.rank == 13)): return True
+        else: return False
     
     def find_card_for_all_foundations(self, card_lists):
         cards = []
@@ -64,7 +41,7 @@ class Solution:
             for card_list in card_lists:
                 if card_list != []:
                     if foundation != []:
-                        if(card_list[-1].neighbor(foundation[-1])): 
+                        if(Solution.neighbor(card_list[-1], foundation[-1])): 
                             cards.append(cl)
                             foundations.append(f)
                     else:
@@ -87,7 +64,7 @@ class Solution:
         for foundation_1 in self.foundations:
             for foundation_2 in self.foundations:
                 if foundation_1 != [] and foundation_2 != []:
-                    if foundation_1[-1].neighbor(foundation_2[-1]):
+                    if Solution.neighbor(foundation_1[-1], foundation_2[-1]):
                         foundation_from.append(ff)
                         foundation_to.append(ft)
                 ft += 1
@@ -136,71 +113,14 @@ class Solution:
         
         return self.find_solution(card_list, solution)
 
-#################################
-#input deck info(suite optional)#
-#################################        
-    
-cl1 = list()
-cl1.append(Card(13, CardSuite.DIAMOND))
-cl1.append(Card(11, CardSuite.SPADE))
-cl1.append(Card( 5, CardSuite.SPADE))
-cl1.append(Card( 3, CardSuite.SPADE))
-cl1.append(Card( 6, CardSuite.DIAMOND))
-cl1.append(Card( 9, CardSuite.SPADE))
-cl1.append(Card(10, CardSuite.SPADE))
-cl1.append(Card( 8, CardSuite.HEART))
-cl1.append(Card( 9, CardSuite.HEART))
-cl1.append(Card(11, CardSuite.DIAMOND))
-cl1.append(Card( 4, CardSuite.SPADE))
-cl1.append(Card( 8, CardSuite.DIAMOND))
-cl1.append(Card( 5, CardSuite.SPADE))
 
-cl2 = list()
-cl2.append(Card(12, CardSuite.CLUB))
-cl2.append(Card( 8, CardSuite.SPADE))
-cl2.append(Card(10, CardSuite.SPADE))
-cl2.append(Card( 7, CardSuite.CLUB))
-cl2.append(Card( 7, CardSuite.DIAMOND))
-cl2.append(Card( 4, CardSuite.SPADE))
-cl2.append(Card( 2, CardSuite.CLUB))
-cl2.append(Card( 5, CardSuite.CLUB))
-cl2.append(Card( 9, CardSuite.CLUB))
-cl2.append(Card( 3, CardSuite.SPADE))
-cl2.append(Card( 7, CardSuite.HEART))
-cl2.append(Card(10, CardSuite.DIAMOND))
-cl2.append(Card(12, CardSuite.DIAMOND))
+s, d, c, h = CardSuite.get_suite_num_vars()
 
-cl3 = list()
-cl3.append(Card( 5, CardSuite.SPADE))
-cl3.append(Card( 6, CardSuite.HEART))
-cl3.append(Card( 1, CardSuite.SPADE))
-cl3.append(Card( 6, CardSuite.CLUB))
-cl3.append(Card( 4, CardSuite.CLUB))
-cl3.append(Card(13, CardSuite.CLUB))
-cl3.append(Card(11, CardSuite.CLUB))
-cl3.append(Card( 6, CardSuite.CLUB))
-cl3.append(Card( 7, CardSuite.DIAMOND))
-cl3.append(Card( 9, CardSuite.HEART))
-cl3.append(Card(12, CardSuite.CLUB))
-cl3.append(Card(12, CardSuite.DIAMOND))
-cl3.append(Card( 1, CardSuite.HEART))
+card_nums = [4,1,12,11,6,13,10,7,10,13,6,1,10,11,11,4,3,3,9,4,8,5,3,12,2,5,4,1,5,1,7,11,12,7,2,9,3,13,8,12,6,9,6,2,8,9,7,13,2,8,10,5]
+card_suites = [d,c,c,s,h,c,c,s,h,d,d,s,s,d,h,h,s,c,c,c,s,h,h,h,h,d,s,h,c,d,h,c,s,d,s,h,d,s,d,d,c,s,s,c,h,d,c,h,d,c,d,s]
+cl_list = Card.get_card_lists(card_nums, card_suites)
 
-cl4 = list()
-cl4.append(Card(13, CardSuite.DIAMOND))
-cl4.append(Card( 2, CardSuite.HEART))
-cl4.append(Card( 2, CardSuite.DIAMOND))
-cl4.append(Card(10, CardSuite.HEART))
-cl4.append(Card( 1, CardSuite.HEART))
-cl4.append(Card( 1, CardSuite.HEART))
-cl4.append(Card( 4, CardSuite.DIAMOND))
-cl4.append(Card(11, CardSuite.CLUB))
-cl4.append(Card( 3, CardSuite.HEART))
-cl4.append(Card( 8, CardSuite.CLUB))
-cl4.append(Card( 3, CardSuite.DIAMOND))
-cl4.append(Card(13, CardSuite.HEART))
-cl4.append(Card( 2, CardSuite.HEART))
-
-s = Solution(cl1, cl2, cl3, cl4)
+s = Solution(cl_list)
 sol = s.solve()
 for i in sol:
     print(i)

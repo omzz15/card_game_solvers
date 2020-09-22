@@ -56,62 +56,19 @@ class Solution:
         return -1
         
     
-cl = list()
-cl.append(Card(12, CardSuite.HEART))
-cl.append(Card( 6, CardSuite.SPADE))
-cl.append(Card( 9, CardSuite.DIAMOND))
-cl.append(Card( 1, CardSuite.DIAMOND))
-cl.append(Card( 9, CardSuite.SPADE))
-cl.append(Card(13, CardSuite.CLUB))
-cl.append(Card( 1, CardSuite.HEART))
-cl.append(Card(13, CardSuite.SPADE))
-cl.append(Card( 7, CardSuite.SPADE))
-cl.append(Card( 3, CardSuite.SPADE))
-cl.append(Card( 2, CardSuite.SPADE))
-cl.append(Card( 9, CardSuite.HEART))
-cl.append(Card( 4, CardSuite.HEART))
+s, d, c, h = CardSuite.get_suite_num_vars()
 
-cl.append(Card( 3, CardSuite.DIAMOND))
-cl.append(Card( 8, CardSuite.HEART))
-cl.append(Card( 5, CardSuite.HEART))
-cl.append(Card( 8, CardSuite.DIAMOND))
-cl.append(Card(11, CardSuite.SPADE))
-cl.append(Card(10, CardSuite.HEART))
-cl.append(Card(11, CardSuite.DIAMOND))
-cl.append(Card( 7, CardSuite.CLUB))
-cl.append(Card(10, CardSuite.DIAMOND))
-cl.append(Card( 7, CardSuite.DIAMOND))
-cl.append(Card( 1, CardSuite.SPADE))
-cl.append(Card(12, CardSuite.SPADE))
-cl.append(Card(13, CardSuite.DIAMOND))
-
-cl.append(Card( 8, CardSuite.SPADE))
-cl.append(Card(11, CardSuite.CLUB))
-cl.append(Card( 3, CardSuite.CLUB))
-cl.append(Card( 1, CardSuite.CLUB))
-cl.append(Card(11, CardSuite.HEART))
-cl.append(Card( 9, CardSuite.CLUB))
-cl.append(Card( 6, CardSuite.HEART))
-cl.append(Card( 8, CardSuite.CLUB))
-cl.append(Card( 5, CardSuite.DIAMOND))
-cl.append(Card( 2, CardSuite.HEART))
-cl.append(Card( 3, CardSuite.HEART))
-cl.append(Card( 7, CardSuite.HEART))
-cl.append(Card( 2, CardSuite.DIAMOND))
-
-cl.append(Card(12, CardSuite.DIAMOND))
-cl.append(Card( 2, CardSuite.CLUB))
-cl.append(Card( 4, CardSuite.DIAMOND))
-cl.append(Card( 4, CardSuite.CLUB))
-cl.append(Card( 5, CardSuite.SPADE))
-cl.append(Card( 6, CardSuite.DIAMOND))
-cl.append(Card( 4, CardSuite.SPADE))
-cl.append(Card( 6, CardSuite.CLUB))
-cl.append(Card(10, CardSuite.CLUB))
-cl.append(Card(12, CardSuite.CLUB))
-cl.append(Card( 5, CardSuite.CLUB))
-cl.append(Card(10, CardSuite.SPADE))
-cl.append(Card(13, CardSuite.HEART))
+card_nums = [
+    12,  6, 10,  3,  5,  5, 11,  1,  6,  4,  8, 12,  7,
+     2,  9, 11,  8, 11,  7,  9,  8,  2, 12,  7,  8,  2,
+     9, 10,  1,  5, 12,  4,  6, 13,  4,  3,  6, 10, 10,
+    13,  3, 11,  1,  9,  7, 13,  4,  1,  2,  3,  5, 13]
+card_suites = [
+    h,d,d,d,d,s,d,d,s,d,s,c,s,
+    d,c,c,d,h,c,h,c,c,s,d,h,s,
+    d,s,h,c,d,s,c,c,h,h,h,h,c,
+    d,c,s,c,s,h,s,c,s,h,s,h,h]
+cl = Card.get_card_lists(card_nums, card_suites, 1)[0]
 
 Card.validate_deck(cl)
 s = Solution(cl)
